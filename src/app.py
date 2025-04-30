@@ -1,4 +1,3 @@
-
 # --- Import Packages --- #
 import asyncio
 from datetime import datetime
@@ -6,6 +5,7 @@ import folium
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import duckduckgo_search 
 import requests
 from prophet import Prophet
 import streamlit as st
@@ -24,6 +24,33 @@ from semantic_kernel.kernel import Kernel
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
+
+# --- Semantic Kernel Setup --- #
+def create_kernel() -> Kernel:
+    kernel = Kernel()
+    kernel.add_service(
+        OpenAIChatCompletion(
+            api_key=st.secrets["openai"]["api_key"],
+            ai_model_id="gpt-4o-mini"
+        )
+    )
+    return kernel
+
+# --- DuckDuckGo Search Plugin --- #
+class DuckDuckGoSearchPlugin:
+    """DuckDuckGo search wrapper plugin."""
+    
+    @kernel_function(
+        name="DuckDuckGoSearch",
+        description="Search the web using DuckDuckGo to receive the latest information."
+    )
+    async def search(self, query: str) -> str:
+        from duckduckgo_search import DDGS
+        with DDGS() as ddgs:
+            results = ddgs.text(query, max_results=5)
+        if not results:
+            return "No relevant information found."
+        return "\n\n".join([f"{r['title']}:\n{r['body']}" for r in results])
 
 # --- NASA Data Plugin --- #
 class NASADataPlugin:
@@ -60,17 +87,6 @@ class NASADataPlugin:
             forecast_year_data = forecast_year[['ds', 'yhat']]
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
 
-# --- Semantic Kernel Setup --- #
-def create_kernel() -> Kernel:
-    kernel = Kernel()
-    kernel.add_service(
-        OpenAIChatCompletion(
-            api_key=st.secrets["openai"]["api_key"],
-            ai_model_id="gpt-4o-mini"
-        )
-    )
-    return kernel
-
 # --- Async wrappers --- #
 async def stream_response(chat):
     responses = []
@@ -95,23 +111,30 @@ if map_data and map_data["last_clicked"]:
         # --- Initialize chatbot if not already ---
         if "chat" not in st.session_state:
             kernel = create_kernel()
+            search_plugin = DuckDuckGoSearchPlugin()
+            kernel.add_plugin(search_plugin)
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
             agent_location_identifier = ChatCompletionAgent(
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You must act as a real-time research agent using DuckDuckGo Search.
+You are an agricultural location identifier.  
+
+You have access to DuckDuckGo search via the 'DuckDuckGoSearchPlugin' plugin.
+
+To perform a search, use the function:
+DuckSearch.search("your search query")
 
 Given coordinates ({lat}, {lon}):
-- Identify the country, region, and notable climate or environmental features.
-- Search the latest climate reports or news for this location.
-- Find any government agricultural regulations affecting farming practices.
-- Find and suggest the best crops to plant based on regional demand and climate suitability.
+- Use DuckSearch to identify the country, region, and notable climate/environmental features.
+- Use DuckSearch to find the latest climate reports or news for this location.
+- Use DuckSearch to check for any government agricultural regulations affecting farming practices.
+- Use DuckSearch to find and suggest the best crops to plant based on regional demand and climate suitability.
 
-If precise data is not found, use general knowledge but state clearly when data is approximate.
+If no data is found, say so clearly and indicate that general knowledge is being used.
 
-Always organize your findings into 4 sections:
+Structure your findings in these sections:
 1. Location and Climate Overview
 2. Recent Climate or Environmental News
 3. Agricultural Regulations
@@ -202,7 +225,7 @@ RESPONSE:
                     history_variable_name="lastmessage",
                     maximum_iterations=8,
                     history_reducer=ChatHistoryTruncationReducer(target_count=2),
-                ),
+                )
             )
             st.session_state.chat = chat
             st.session_state.history = []
@@ -218,7 +241,7 @@ RESPONSE:
                 st.markdown(msg.strip())
 
         # --- Chat input --- #
-        user_input = st.chat_input("Ask a follow-up about moisture, farming, or planting...")
+        user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
             with st.chat_message("user"):
                 st.markdown(user_input)
@@ -230,5 +253,3 @@ RESPONSE:
                     st.session_state.history.append((name, msg))
                     with st.chat_message(name):
                         st.markdown(msg.strip())
-else:
-    st.info("Click on the map to select a location.")
