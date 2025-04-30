@@ -9,7 +9,8 @@ This makes it challenging for
 Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. 
 
 ## Architecture 
-![Flowchart - Frame 1](https://github.com/user-attachments/assets/19d84b7b-d469-41c3-b11b-e2af0476637d)
+![Flowchart - Frame 1 (1)](https://github.com/user-attachments/assets/9b5f4ef4-1c05-4636-8075-b2544a35b490)
+
 
 An automated forecasting model using the Prophet library was applied to more than 40 years of MERRA-2 soil moisture data to identify long-term trends, predict 365 days into the future, and explore seasonal patterns.
 
