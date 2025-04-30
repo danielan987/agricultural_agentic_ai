@@ -20,15 +20,14 @@ The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 
 
 ## Developer Guide
 
-1. Clone this repository.
+1. Fork this repository.
 
 2. Go to Streamlit Cloud and create an account or log-in: https://share.streamlit.io/
 <img width="1482" alt="Screenshot 2025-04-30 at 11 12 28 AM" src="https://github.com/user-attachments/assets/c39dd924-372c-486a-a21b-1e0d0eccb03d" />
 
 3. Click on "Create app" then "Deploy a public app from GitHub"
-<img width="1518" alt="Screenshot 2025-04-30 at 11 15 51 AM" src="https://github.com/user-attachments/assets/ff19085f-9a8a-4c19-93fe-30cb529e05af" />
+<img width="1522" alt="Screenshot 2025-04-30 at 11 42 14 AM" src="https://github.com/user-attachments/assets/615446ed-2694-4114-ade1-f994c449bf4a" />
 
-<img width="1521" alt="Screenshot 2025-04-30 at 11 16 19 AM" src="https://github.com/user-attachments/assets/f83ebb95-4449-4e1e-b12b-8446bf940f47" />
 
 <img width="1081" alt="Screenshot 2025-04-30 at 11 18 21 AM" src="https://github.com/user-attachments/assets/85243b1f-bfc4-46aa-83e1-dad5bbf2a3e0" />
 
