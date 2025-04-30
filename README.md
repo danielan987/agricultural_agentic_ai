@@ -1,24 +1,7 @@
 # Agricultural Agentic AI
 
 ## Overview
-A user-friendly, agentic AI app for farmers to leverage agentic AI to understand more about where they are farming. 
-
-
-## Problem
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. 
-
-Data and AI has so much potential to each farmers. 
-
-This will ultimately impact global food supplies, water sustainability, and 
-
-Many farmers aren't as familiar with data and AI which   
-
-
-
-
-makes it challenging for local farmers to shift or even pivot agricultural or irrigation strategies. So they have to rely on their intuitions. 
-
-
+Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. This will ultimately impact global food supplies, water sustainability. 
 
 ## Architecture Overview
 
