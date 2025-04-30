@@ -1,1 +1,1 @@
-# Agricultural_Agentic_AI
+# Agricultural Agentic AI
