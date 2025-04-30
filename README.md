@@ -23,28 +23,18 @@ The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 
 1. Fork this repository.
 <img width="143" alt="Screenshot 2025-04-30 at 11 45 18 AM" src="https://github.com/user-attachments/assets/77cba18e-1052-4355-948f-0adbb2a84ed9" />
 
-3. Go to Streamlit Cloud and create an account or log-in: https://share.streamlit.io/
+2. Go to Streamlit Cloud and create an account or log-in: https://share.streamlit.io/
 <img width="1482" alt="Screenshot 2025-04-30 at 11 12 28 AM" src="https://github.com/user-attachments/assets/c39dd924-372c-486a-a21b-1e0d0eccb03d" />
 
-4. Click on "Create app" then "Deploy a public app from GitHub"
+3. Click on "Create app" then "Deploy a public app from GitHub"
 <img width="1522" alt="Screenshot 2025-04-30 at 11 42 14 AM" src="https://github.com/user-attachments/assets/615446ed-2694-4114-ade1-f994c449bf4a" />
 
-
 <img width="1081" alt="Screenshot 2025-04-30 at 11 18 21 AM" src="https://github.com/user-attachments/assets/85243b1f-bfc4-46aa-83e1-dad5bbf2a3e0" />
-
 
 4. Select appropriate parameters, including Python 3.12 and your OpenAI API key to Streamlit secret on "Advanced Settings", then deploy.
 <img width="877" alt="Screenshot 2025-04-30 at 11 22 39 AM" src="https://github.com/user-attachments/assets/506cb0f5-7f81-478c-aeb6-6ca0d8146e97" />
 
 <img width="856" alt="Screenshot 2025-04-30 at 11 27 52 AM" src="https://github.com/user-attachments/assets/2e8a16cb-eaf4-42bb-a1b5-13f121ce2a1c" />
-
-
-
- 
-
-
-
-
 
 ## User Guide
 1. Open Soil Agent App: https://soilagent.streamlit.app/
