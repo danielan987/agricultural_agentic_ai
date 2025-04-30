@@ -25,6 +25,16 @@ LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
 
+# --- Semantic Kernel Setup --- #
+def create_kernel() -> Kernel:
+    kernel = Kernel()
+    kernel.add_service(
+        OpenAIChatCompletion(
+            api_key=st.secrets["openai"]["api_key"],
+            ai_model_id="gpt-4o-mini"
+        )
+    )
+    return kernel
 
 # --- DuckDuckGo Search Plugin --- #
 class DuckDuckGoSearchPlugin:
@@ -76,17 +86,6 @@ class NASADataPlugin:
             forecast_year = forecast.tail(365)
             forecast_year_data = forecast_year[['ds', 'yhat']]
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
-
-# --- Semantic Kernel Setup --- #
-def create_kernel() -> Kernel:
-    kernel = Kernel()
-    kernel.add_service(
-        OpenAIChatCompletion(
-            api_key=st.secrets["openai"]["api_key"],
-            ai_model_id="gpt-4o-mini"
-        )
-    )
-    return kernel
 
 # --- Async wrappers --- #
 async def stream_response(chat):
