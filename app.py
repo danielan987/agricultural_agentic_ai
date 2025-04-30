@@ -5,6 +5,7 @@ import folium
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import duckduckgo_search 
 import requests
 from prophet import Prophet
 import streamlit as st
@@ -19,21 +20,19 @@ from semantic_kernel.contents import ChatHistoryTruncationReducer
 from semantic_kernel.functions import KernelFunctionFromPrompt, kernel_function
 from semantic_kernel.kernel import Kernel
 
-import duckduckgo_search  
-
 # --- Constants --- #
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
 
 
-
-class DuckSearchPlugin:
+# --- DuckDuckGo Search Plugin --- #
+class DuckDuckGoSearchPlugin:
     """DuckDuckGo search wrapper plugin."""
     
     @kernel_function(
-        name="DuckSearch",
-        description="Search the web using DuckDuckGo for real-time information."
+        name="DuckDuckGoSearch",
+        description="Search the web using DuckDuckGo to receive the latest information."
     )
     async def search(self, query: str) -> str:
         from duckduckgo_search import DDGS
@@ -113,7 +112,7 @@ if map_data and map_data["last_clicked"]:
         # --- Initialize chatbot if not already ---
         if "chat" not in st.session_state:
             kernel = create_kernel()
-            search_plugin = DuckSearchPlugin()
+            search_plugin = DuckDuckGoSearchPlugin()
             kernel.add_plugin(search_plugin)
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
@@ -121,7 +120,7 @@ if map_data and map_data["last_clicked"]:
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You are a real-time research assistant with access to DuckDuckGo search via the 'DuckSearch' plugin.
+You are a real-time research assistant with access to DuckDuckGo search via the 'DuckDuckGoSearchPlugin' plugin.
 
 To perform a search, use the function:
 DuckSearch.search("your search query")
@@ -225,7 +224,7 @@ RESPONSE:
                     history_variable_name="lastmessage",
                     maximum_iterations=8,
                     history_reducer=ChatHistoryTruncationReducer(target_count=2),
-                ),
+                )
             )
             st.session_state.chat = chat
             st.session_state.history = []
@@ -241,7 +240,7 @@ RESPONSE:
                 st.markdown(msg.strip())
 
         # --- Chat input --- #
-        user_input = st.chat_input("Ask a follow-up about moisture, farming, or planting...")
+        user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
             with st.chat_message("user"):
                 st.markdown(user_input)
