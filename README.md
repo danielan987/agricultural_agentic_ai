@@ -20,7 +20,19 @@ makes it challenging for local farmers to shift or even pivot agricultural or ir
 
 
 
-## Architecture Diagram
+## Architecture Overview
+
+
+
+## Data Source
+Soil moisture data from National Aeronautics and Space Administration (NASA). 
+ranges of 
+
+It measures soil moisture level across the globe from the surface to 100 cm below the surface (depth of most crops' roots). 
+
+
+NASA's soil moisture data from 1981 to the present day. 
+The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 1 indicates the soil is completely saturated. 
 
 
 ## Developer Guide
@@ -47,15 +59,7 @@ makes it challenging for local farmers to shift or even pivot agricultural or ir
 
  
 
-## Data Source
-Soil moisture data from National Aeronautics and Space Administration (NASA). 
-ranges of 
 
-It measures soil moisture level across the globe from the surface to 100 cm below the surface (depth of most crops' roots). 
-
-
-NASA's soil moisture data from 1981 to the present day. 
-The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 1 indicates the soil is completely saturated. 
 
 
 
