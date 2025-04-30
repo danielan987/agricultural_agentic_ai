@@ -252,5 +252,3 @@ RESPONSE:
                     st.session_state.history.append((name, msg))
                     with st.chat_message(name):
                         st.markdown(msg.strip())
-else:
-    st.info("Click on the map to select a location.")
