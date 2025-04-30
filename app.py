@@ -119,7 +119,9 @@ if map_data and map_data["last_clicked"]:
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You are a real-time research assistant with access to DuckDuckGo search via the 'DuckDuckGoSearchPlugin' plugin.
+You are an agricultural location identifier.  
+
+You have access to DuckDuckGo search via the 'DuckDuckGoSearchPlugin' plugin.
 
 To perform a search, use the function:
 DuckSearch.search("your search query")
