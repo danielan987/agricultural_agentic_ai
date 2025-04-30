@@ -19,10 +19,29 @@ from semantic_kernel.contents import ChatHistoryTruncationReducer
 from semantic_kernel.functions import KernelFunctionFromPrompt, kernel_function
 from semantic_kernel.kernel import Kernel
 
+import duckduckgo_search  
+
 # --- Constants --- #
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
+
+
+
+class DuckSearchPlugin:
+    """DuckDuckGo search wrapper plugin."""
+    
+    @kernel_function(
+        name="DuckSearch",
+        description="Search the web using DuckDuckGo for real-time information."
+    )
+    async def search(self, query: str) -> str:
+        from duckduckgo_search import DDGS
+        with DDGS() as ddgs:
+            results = ddgs.text(query, max_results=5)
+        if not results:
+            return "No relevant information found."
+        return "\n\n".join([f"{r['title']}:\n{r['body']}" for r in results])
 
 # --- NASA Data Plugin --- #
 class NASADataPlugin:
@@ -94,23 +113,28 @@ if map_data and map_data["last_clicked"]:
         # --- Initialize chatbot if not already ---
         if "chat" not in st.session_state:
             kernel = create_kernel()
+            search_plugin = DuckSearchPlugin()
+            kernel.add_plugin(search_plugin)
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
             agent_location_identifier = ChatCompletionAgent(
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You must act as a real-time research agent using DuckDuckGo Search.
+You are a real-time research assistant with access to DuckDuckGo search via the 'DuckSearch' plugin.
+
+To perform a search, use the function:
+DuckSearch.search("your search query")
 
 Given coordinates ({lat}, {lon}):
-- Identify the country, region, and notable climate or environmental features.
-- Search the latest climate reports or news for this location.
-- Find any government agricultural regulations affecting farming practices.
-- Find and suggest the best crops to plant based on regional demand and climate suitability.
+- Use DuckSearch to identify the country, region, and notable climate/environmental features.
+- Use DuckSearch to find the latest climate reports or news for this location.
+- Use DuckSearch to check for any government agricultural regulations affecting farming practices.
+- Use DuckSearch to find and suggest the best crops to plant based on regional demand and climate suitability.
 
-If precise data is not found, use general knowledge but state clearly when data is approximate.
+If no data is found, say so clearly and indicate that general knowledge is being used.
 
-Always organize your findings into 4 sections:
+Structure your findings in these sections:
 1. Location and Climate Overview
 2. Recent Climate or Environmental News
 3. Agricultural Regulations
