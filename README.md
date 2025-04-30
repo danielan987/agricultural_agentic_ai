@@ -33,8 +33,7 @@ The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 
 
 4. Select appropriate parameters, including Python 3.12 and your OpenAI API key to Streamlit secret on "Advanced Settings", then deploy.
 <img width="877" alt="Screenshot 2025-04-30 at 11 22 39 AM" src="https://github.com/user-attachments/assets/506cb0f5-7f81-478c-aeb6-6ca0d8146e97" />
-
-<img width="856" alt="Screenshot 2025-04-30 at 11 27 52 AM" src="https://github.com/user-attachments/assets/2e8a16cb-eaf4-42bb-a1b5-13f121ce2a1c" />
+ <img width="856" alt="Screenshot 2025-04-30 at 11 27 52 AM" src="https://github.com/user-attachments/assets/2e8a16cb-eaf4-42bb-a1b5-13f121ce2a1c" />
 
 ## User Guide
 1. Open Soil Agent App: https://soilagent.streamlit.app/
