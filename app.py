@@ -1,23 +1,23 @@
-import streamlit as st
-import folium
-from streamlit_folium import st_folium
-import requests
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from prophet import Prophet
-from datetime import datetime
+# --- Import Packages --- #
 import asyncio
-from semantic_kernel.kernel import Kernel
-from semantic_kernel.functions import kernel_function
+from datetime import datetime
+import folium
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import requests
+from prophet import Prophet
+import streamlit as st
+from streamlit_folium import st_folium
 from semantic_kernel.agents import AgentGroupChat, ChatCompletionAgent
 from semantic_kernel.agents.strategies import (
     KernelFunctionSelectionStrategy,
-    KernelFunctionTerminationStrategy,
+    KernelFunctionTerminationStrategy
 )
 from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
 from semantic_kernel.contents import ChatHistoryTruncationReducer
-from semantic_kernel.functions import KernelFunctionFromPrompt
+from semantic_kernel.functions import KernelFunctionFromPrompt, kernel_function
+from semantic_kernel.kernel import Kernel
 
 # --- Constants ---
 LOCATION_IDENTIFIER = "LocationIdentifier"
