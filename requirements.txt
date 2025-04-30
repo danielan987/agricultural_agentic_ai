@@ -10,7 +10,7 @@ matplotlib==3.9.2
 requests==2.32.3
 prophet==1.1.6
 certifi==2024.8.30
-duckduckgo-search
+duckduckgo-search==8.0.1
 
 # Semantic Kernel and async support
 semantic-kernel==1.29.0
