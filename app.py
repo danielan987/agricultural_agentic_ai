@@ -90,7 +90,7 @@ if map_data and map_data["last_clicked"]:
     lat = map_data["last_clicked"]["lat"]
     lon = map_data["last_clicked"]["lng"]
     parameter = "GWETROOT"
-    with st.spinner("Fetching soil moisture data..."):
+    with st.spinner("Thinking..."):
         # --- Initialize chatbot if not already ---
         if "chat" not in st.session_state:
             kernel = create_kernel()
@@ -205,21 +205,18 @@ RESPONSE:
             )
             st.session_state.chat = chat
             st.session_state.history = []
-            
-            # First Summary
             first_prompt = "Given coordinates ({lat}, {lon}), provide agricultural recommendations."
             asyncio.run(st.session_state.chat.add_chat_message(message=first_prompt))
-            with st.spinner("Thinking..."):
-                for name, msg in asyncio.run(stream_response(st.session_state.chat)):
-                    st.session_state.history.append((name, msg))
+            for name, msg in asyncio.run(stream_response(st.session_state.chat)):
+                st.session_state.history.append((name, msg))
 
-        # --- Display Chat UI ---
+        # --- Display Chat UI --- #
         st.markdown("### 🤖 Chat with the Soil Agent")
         for sender, msg in st.session_state.history:
             with st.chat_message(sender):
                 st.markdown(msg.strip())
 
-        # --- Chat input ---
+        # --- Chat input --- #
         user_input = st.chat_input("Ask a follow-up about moisture, farming, or planting...")
         if user_input:
             with st.chat_message("user"):
