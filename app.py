@@ -19,12 +19,12 @@ from semantic_kernel.contents import ChatHistoryTruncationReducer
 from semantic_kernel.functions import KernelFunctionFromPrompt, kernel_function
 from semantic_kernel.kernel import Kernel
 
-# --- Constants ---
+# --- Constants --- #
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
 
-# --- NASA Data Plugin ---
+# --- NASA Data Plugin --- #
 class NASADataPlugin:
     """Plugin for fetching NASA soil moisture data."""
     def __init__(self, lat: str, lon: str, parameter: str):
@@ -59,7 +59,7 @@ class NASADataPlugin:
             forecast_year_data = forecast_year[['ds', 'yhat']]
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
 
-# --- Semantic Kernel Setup ---
+# --- Semantic Kernel Setup --- #
 def create_kernel() -> Kernel:
     kernel = Kernel()
     kernel.add_service(
@@ -70,7 +70,7 @@ def create_kernel() -> Kernel:
     )
     return kernel
 
-# --- Async wrappers ---
+# --- Async wrappers --- #
 async def stream_response(chat):
     responses = []
     async for reply in chat.invoke():
@@ -78,9 +78,9 @@ async def stream_response(chat):
             responses.append((reply.name, reply.content))
     return responses
 
-# --- Streamlit UI ---
+# --- Streamlit UI --- #
 st.set_page_config(layout="wide")
-st.title("🌾 Soil Agent")
+st.title("🌾 Agricultural Agentic AI")
 
 st.write("### Select a location on the map")
 map = folium.Map(location=[20, 0], zoom_start=2)
