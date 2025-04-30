@@ -3,7 +3,7 @@
 ## Overview
 Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This makes it challenging for 
 
-Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. This will ultimately impact global food supplies, water sustainability. 
+Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. 
 
 ## Architecture Overview
 
@@ -59,7 +59,8 @@ The first analysis is a line graph of the data from 1981 to the current date. Th
 An automated forecasting model using the Prophet library was applied to more than 40 years of MERRA-2 soil moisture data to identify long-term trends, predict 365 days into the future, and explore seasonal patterns.
 
 Overall, 
-These analyses help farmers understand their farm better and plan ahead. By adjusting seasonal irrigation strategies, switching to crops suited for the projected moisture levels, or deciding to purchase crop insurance.
+These analyses help farmers understand their farm better and plan ahead. By adjusting seasonal irrigation strategies, switching to crops suited for the projected moisture levels, or deciding to purchase 
+crop insurance.
 
 
 
@@ -69,7 +70,7 @@ These analyses help farmers understand their farm better and plan ahead. By adju
 
 
 ## Conclusion
-
+This will ultimately impact global food supplies, water sustainability. 
 
 Contact
 Daniel An: daniel.an.893@outlook.com
