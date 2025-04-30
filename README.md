@@ -31,21 +31,24 @@ The value ranges from 0 to 1. 0 indicates the soil is completely water-free and 
 
 <img width="1081" alt="Screenshot 2025-04-30 at 11 18 21 AM" src="https://github.com/user-attachments/assets/85243b1f-bfc4-46aa-83e1-dad5bbf2a3e0" />
 
-4. Select appropriate parameters, including Python 3.12 and your OpenAI API key to Streamlit secret on "Advanced Settings", then deploy.
+4. Select appropriate parameters, including Python 3.12 and your OpenAI API key, to Streamlit secret on "Advanced Settings", then deploy.
 <img width="877" alt="Screenshot 2025-04-30 at 11 22 39 AM" src="https://github.com/user-attachments/assets/506cb0f5-7f81-478c-aeb6-6ca0d8146e97" />
   <img width="856" alt="Screenshot 2025-04-30 at 11 27 52 AM" src="https://github.com/user-attachments/assets/2e8a16cb-eaf4-42bb-a1b5-13f121ce2a1c" />
 
 ## User Guide
-1. Open Soil Agent App: https://soilagent.streamlit.app/
+1. Open Agricultural Agentic AI App: [https://soilagent.streamlit.app/](https://agricultural-agentic-ai.streamlit.app/)
 
-2. Select a location on a map. 
+2. Zoom in and select a location on a map. 
 <img width="1213" alt="Screenshot 2025-04-29 at 9 19 48 PM" src="https://github.com/user-attachments/assets/20c3becc-a236-4799-b88c-aeacbc0c3847" />
+<img width="740" alt="Screenshot 2025-04-30 at 11 54 03 AM" src="https://github.com/user-attachments/assets/d68e738d-c765-4495-b03c-2316c19a0164" />
+
+
 
 3. Review response. 
 
-4. Ask follow-up questions or provide feedback.
+4. Ask follow-up questions.
   
-6. Repeat Step 3 and Step 4 until . 
+5. Repeat Step 3 and Step 4 until satisfied. 
 
 
 
