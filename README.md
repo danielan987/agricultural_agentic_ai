@@ -1,12 +1,16 @@
 # Agricultural Agentic AI
 
 ## Overview
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This makes it challenging for 
+Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. 
+
+Generally, they respond based on their intuition, from 
+This makes it challenging for 
 
 Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. 
 
 ## Architecture 
 
+An automated forecasting model using the Prophet library was applied to more than 40 years of MERRA-2 soil moisture data to identify long-term trends, predict 365 days into the future, and explore seasonal patterns.
 
 
 ## Data Source
@@ -44,31 +48,23 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
 
 
 
-Farmers can select their location on a global map to access tailored analyses of their farmland including trajectories and seasonal variations of their land and next year's soil moisture predictions based on decades of MERRA-2 data. This supports efficient irrigation management and crop production which ultimately supports global water sustainability.
+
 
 This tool allows farmers across the globe to zoom in on a Folium map to click on their location for analysis. Depending on the location, language may be adjusted to make it easier for the farmer to find their location.
 This location data is sent to the NASA POWER API to retrieve the earliest to latest soil moisture data. This amount of historical data makes it possible for a forecasting model using the Prophet library to analyze long-term trends and seasonal cycles and predict soil moisture levels 365 days into the future. Prophet accounts for non-linear trends using a piecewise linear model and accounts for seasonal cycles using a Fourier series that decomposes the cycle into a series of sine and cosine terms. Nevertheless, it is a lightweight automated model in a lightweight Streamlit application. Thus, the analyses are provided to the farmers on-demand.
 The first analysis is a line graph of the data from 1981 to the current date. The value ranges from 0 to 1 with 0 indicating the soil is completely water-free and 1 indicating the soil is completely saturated. The second analysis follows a similar format but consists of predicted values 365 days from the current date with confidence intervals. The third analysis decomposes the data to visualize the general trend without the fluctuations. The fourth analysis decomposes the data to visualize the impact of the seasonal cycle that occurs within each year on soil moisture levels. Each visualization is written in English with emojis, numbers and international units of measurement to make it easier to comprehend for everyone across the globe.
 
 
-
-
-
-
-
-
-
-## Conclusion
 This will ultimately impact global food supplies, water sustainability. 
 
 
-An automated forecasting model using the Prophet library was applied to more than 40 years of MERRA-2 soil moisture data to identify long-term trends, predict 365 days into the future, and explore seasonal patterns.
+
 
 Overall, 
 These analyses help farmers understand their farm better and plan ahead. By adjusting seasonal irrigation strategies, switching to crops suited for the projected moisture levels, or deciding to purchase 
 crop insurance.
 
 
-Contact
-Daniel An: daniel.an.893@outlook.com
 
+## Contact
+Daniel An: daniel.an.893@outlook.com
