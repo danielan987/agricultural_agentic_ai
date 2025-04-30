@@ -16,4 +16,3 @@ aiohttp
 
 # Semantic Kernel and agent framework
 semantic-kernel
-openai
