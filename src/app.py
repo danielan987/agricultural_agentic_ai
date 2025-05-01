@@ -157,10 +157,10 @@ if map_data and map_data["last_clicked"]:
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You are a real-time research agent with access to the DuckSearch plugin.
+You are an agricultural location identifier with access to the DuckDuckGoSearch plugin.
 
 To search for information, call:
-DuckSearch.search({lat}, {lon})
+DuckDuckGoSearch.search({lat}, {lon})
 
 Given the coordinates ({lat}, {lon}), your job is to:
 - Use DuckSearch to search for current climate conditions.
@@ -194,20 +194,21 @@ Your tasks are:
 - Analyze the forecast trends over the next 12 months.
 
 When analyzing the forecast:
-- Interpret soil moisture patterns without mentioning the specific numerical values.
-- Consider soil moisture as "too low" if the forecasted value is below 0.2.
-- Consider soil moisture as "too high" if the forecasted value is above 0.6.
+- Interpret soil moisture patterns without explicitly mentioning specific numerical values or thresholds.
+- Internally consider soil moisture "too low" if the forecasted value is below 0.2, and "too high" if the forecasted value is above 0.6, but do not state these thresholds directly.
+- Use these internal thresholds to guide your interpretation and recommendations.
 - Speak entirely in future tense when describing soil conditions.
+- Always reference the specific dates when dryness or excessive moisture is expected.
 
 Based on the analysis:
-- Identify upcoming periods of dryness or drought risk if the soil moisture is predicted to be too low.
-- Identify upcoming periods of saturation or flood risk if the soil moisture is predicted to be too high.
-- Detect general trends such as increasing, decreasing, or stable soil moisture over time.
+- Identify upcoming periods of dryness or drought risk by specifying the dates when dryness is expected, without referring to numerical thresholds.
+- Identify upcoming periods of excessive moisture or flood risk by specifying the dates when high moisture is expected, without referring to numerical thresholds.
+- Detect and describe general trends such as increasing, decreasing, or stable soil moisture over time.
 
 When giving recommendations:
-- Offer practical irrigation strategies if dryness is expected.
-- Offer drainage or water management strategies if excessive moisture is expected.
-- Provide gardening and farming advice based on the projected soil moisture conditions.
+- Offer practical irrigation strategies if dryness is expected, indicating when farmers may need to prepare.
+- Offer drainage or water management strategies if excessive moisture is expected, indicating when preventive measures should be considered.
+- Provide gardening and farming advice tailored to the projected soil moisture conditions.
 
 If the forecast data is unavailable or insufficient to determine a trend, politely inform the user without making assumptions.
 
