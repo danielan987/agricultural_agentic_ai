@@ -247,7 +247,7 @@ RESPONSE:
                     kernel = kernel,
                     result_parser = lambda r: str(r.value[0]).strip(),
                     history_variable_name = "lastmessage",
-                    history_reducer=ChatHistoryTruncationReducer(target_count = 2)
+                    history_reducer=ChatHistoryTruncationReducer(target_count = 5)
                 ),
                 termination_strategy=KernelFunctionTerminationStrategy(
                     agents = [agent_data_analyst],
@@ -256,7 +256,7 @@ RESPONSE:
                     result_parser = lambda r: TERMINATION_KEYWORD in str(r.value[0]).lower(),
                     history_variable_name = "lastmessage",
                     maximum_iterations = 8,
-                    history_reducer=ChatHistoryTruncationReducer(target_count = 2)
+                    history_reducer=ChatHistoryTruncationReducer(target_count = 5)
                 )
             )
             st.session_state.chat = chat
