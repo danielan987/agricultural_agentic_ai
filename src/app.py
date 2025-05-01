@@ -123,24 +123,12 @@ class NASADataPlugin:
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
 
 # --- Asynchronous wrapper --- #
-# --- Async streaming function (REPLACEMENT for stream_response) --- #
-async def stream_single_response(chat):
-    """
-    Streams each message token-by-token from the chat agent and displays progressively.
-    """
+async def stream_response(chat):
+    responses = []
     async for reply in chat.invoke():
         if reply:
-            sender = reply.name
-            avatar_icon = AVATARS.get(sender)
-            full_response = ""
-            # Create a placeholder for progressive updates
-            with st.chat_message(sender, avatar=avatar_icon):
-                response_placeholder = st.empty()
-                async for token in reply.get_streamed_content():
-                    full_response += token
-                    response_placeholder.markdown(full_response + "▌")
-                response_placeholder.markdown(full_response)  # finalize without cursor
-            st.session_state.history.append((sender, full_response))
+            responses.append((reply.name, reply.content))
+    return responses
 
 # --- Streamlit Interface --- #
 st.set_page_config(layout="wide")
@@ -270,26 +258,32 @@ RESPONSE:
                     maximum_iterations = 8,
                     history_reducer=ChatHistoryTruncationReducer(target_count = 5)
                 )
-            )        
+            )
             st.session_state.chat = chat
             st.session_state.history = []
-            first_prompt = f"Given coordinates ({lat}, {lon}), provide agricultural recommendations."
-            asyncio.run(st.session_state.chat.add_chat_message(message=first_prompt))
-            asyncio.run(stream_single_response(st.session_state.chat))
-
-        # --- Display past history --- #
+            first_prompt = "Given coordinates ({lat}, {lon}), provide agricultural recommendations."
+            asyncio.run(st.session_state.chat.add_chat_message(message = first_prompt))
+            for name, msg in asyncio.run(stream_response(st.session_state.chat)):
+                st.session_state.history.append((name, msg))
+        
+        # --- Display agents' responses --- #
         st.markdown("### 🤖 Chat with the Agricultural AI Agent")
         for sender, msg in st.session_state.history:
             avatar_icons = AVATARS.get(sender)
-            with st.chat_message(sender, avatar=avatar_icons):
+            with st.chat_message(sender, avatar = avatar_icons):
                 st.markdown(msg.strip())
-
-        # --- User follow-up input handling --- #
+        
+        # --- Handle user's follow-up prompts and display agents' responses --- #
         user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
-            with st.chat_message("user", avatar="🚜"):
+            with st.chat_message("user", avatar = "🚜"):
                 st.markdown(user_input)
-            asyncio.run(st.session_state.chat.add_chat_message(message=user_input))
+            asyncio.run(st.session_state.chat.add_chat_message(message = user_input))
             st.session_state.chat.is_complete = False
             with st.spinner("Thinking..."):
-                asyncio.run(stream_single_response(st.session_state.chat))
+                responses = asyncio.run(stream_response(st.session_state.chat))
+                for name, msg in responses:
+                    st.session_state.history.append((name, msg))
+                    avatar_icons = AVATARS.get(name)
+                    with st.chat_message(name, avatar = avatar_icons):
+                        st.markdown(msg.strip())
