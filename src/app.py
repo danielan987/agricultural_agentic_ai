@@ -38,11 +38,11 @@ def create_kernel() -> Kernel:
     )
     return kernel
 
-class DuckSearchPlugin:
+class DuckDuckGoSearch:
     """DuckDuckGo search plugin with automatic query generation based on lat/lon."""
 
     def __init__(self):
-        self.geolocator = Nominatim(user_agent="soil_agent_app")
+        self.geolocator = Nominatim(user_agent="agricultural_agentic_ai_app")
 
     @kernel_function(
         name="DuckSearch",
@@ -149,34 +149,35 @@ if map_data and map_data["last_clicked"]:
     with st.spinner("Thinking..."):
         if "chat" not in st.session_state:
             kernel = create_kernel()
-            search_plugin = DuckDuckGoSearchPlugin()
-            kernel.add_plugin(search_plugin)
+            search_results = DuckDuckGoSearchPlugin()
+            kernel.add_plugin(search_results)
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
             agent_location_identifier = ChatCompletionAgent(
                 kernel=kernel,
                 name=LOCATION_IDENTIFIER,
                 instructions=f"""
-You are an agricultural location identifier.  
+You are a real-time research agent with access to the DuckSearch plugin.
 
-You have access to DuckDuckGo search via the 'DuckDuckGoSearchPlugin' plugin.
+To search for information, call:
+DuckSearch.search({lat}, {lon})
 
-To perform a search, use the function:
-DuckSearch.search("your search query")
+Given the coordinates ({lat}, {lon}), your job is to:
+- Use DuckSearch to search for current climate conditions.
+- Use DuckSearch to search for agricultural regulations.
+- Use DuckSearch to search for recommended crops and local agricultural market demand.
 
-Given coordinates ({lat}, {lon}):
-- Use DuckSearch to identify the country, region, and notable climate/environmental features.
-- Use DuckSearch to find the latest climate reports or news for this location.
-- Use DuckSearch to check for any government agricultural regulations affecting farming practices.
-- Use DuckSearch to find and suggest the best crops to plant based on regional demand and climate suitability.
+If DuckSearch reports 'unable to determine location' or no results for a query, explain this clearly in your response.
 
-If no data is found, say so clearly and indicate that general knowledge is being used.
-
-Structure your findings in these sections:
+Always organize your findings into 4 sections:
 1. Location and Climate Overview
 2. Recent Climate or Environmental News
 3. Agricultural Regulations
 4. Best Crops to Grow and Local Demand Insights
+
+Start each section with a heading. Always attribute findings as coming from DuckSearch results or state if they’re general knowledge due to missing data.
+
+End your response with a summary recommendation on what the user should focus on agriculturally based on the findings.
 """
             )
             agent_data_analyst = ChatCompletionAgent(
