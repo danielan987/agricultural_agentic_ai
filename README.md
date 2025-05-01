@@ -1,15 +1,12 @@
 # Agricultural Agentic AI
 
 ## Overview
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. 
-
-Generally, they respond based on their intuition, from 
-This makes it challenging for 
-
-Data AND has so much potential to help local farmers adjust or even pivot agricultural or irrigation strategies but because they are not as familiar with them, they have to rely on their intuitions. A user-friendly, agentic AI app for farmers to understand more about the dynamic changes in where they are farming. 
+Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies, which is often done by intuition. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to help them make these decisions.    
 
 ## Architecture 
 ![Flowchart - Frame 1 (2)](https://github.com/user-attachments/assets/6775e87c-b775-482c-9930-5fb76e650efb)
+
+A user starts the conversation by selecting a location on a map instead of writing a prompt. 
 
 Within a 
 gpt-4o-mini
