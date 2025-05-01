@@ -27,6 +27,7 @@ TERMINATION_KEYWORD = "yes"
 
 # --- Semantic Kernel Setup --- #
 def create_kernel() -> Kernel:
+    """Creates a Kernel instance with an OpenAI ChatCompletion service."""
     kernel = Kernel()
     kernel.add_service(
         OpenAIChatCompletion(
@@ -87,7 +88,7 @@ class NASADataPlugin:
             forecast_year_data = forecast_year[['ds', 'yhat']]
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
 
-# --- Async wrappers --- #
+# --- Asynchronous wrapper --- #
 async def stream_response(chat):
     responses = []
     async for reply in chat.invoke():
@@ -95,20 +96,17 @@ async def stream_response(chat):
             responses.append((reply.name, reply.content))
     return responses
 
-# --- Streamlit UI --- #
+# --- Streamlit Interface --- #
 st.set_page_config(layout="wide")
 st.title("🌾 Agricultural Agentic AI")
-
 st.write("### Select a location on the map")
 map = folium.Map(location=[20, 0], zoom_start=2)
 map_data = st_folium(map, width=1200, height=600, returned_objects=["last_clicked"])
-
 if map_data and map_data["last_clicked"]:
     lat = map_data["last_clicked"]["lat"]
     lon = map_data["last_clicked"]["lng"]
     parameter = "GWETROOT"
     with st.spinner("Thinking..."):
-        # --- Initialize chatbot if not already ---
         if "chat" not in st.session_state:
             kernel = create_kernel()
             search_plugin = DuckDuckGoSearchPlugin()
@@ -234,13 +232,13 @@ RESPONSE:
             for name, msg in asyncio.run(stream_response(st.session_state.chat)):
                 st.session_state.history.append((name, msg))
 
-        # --- Display Chat UI --- #
+        # --- Display chat for follow-up prompts --- #
         st.markdown("### 🤖 Chat with the Soil Agent")
         for sender, msg in st.session_state.history:
             with st.chat_message(sender):
                 st.markdown(msg.strip())
 
-        # --- Chat input --- #
+        # --- Handle user's follow-up prompts and display agents' responses --- #
         user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
             with st.chat_message("user"):
