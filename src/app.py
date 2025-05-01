@@ -25,7 +25,7 @@ from semantic_kernel.kernel import Kernel
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
-AVATARS = {"user": "🚜", "LocationIdentifier": "🗺️", "DataAnalyst": "📊"}
+AVATARS = {"user": "🚜", "LocationIdentifier": "🌍", "DataAnalyst": "📊"}
 
 # --- Semantic Kernel Setup --- #
 def create_kernel() -> Kernel:
