@@ -47,7 +47,7 @@ class DuckDuckGoSearchPlugin:
 
     @kernel_function(
         name = "DuckDuckGoSearch",
-        description = "Search the web using DuckDuckGo for local climate, agriculture regulations, and market demand."
+        description = "Search the web using DuckDuckGo for local agriculture regulations and market demands."
     )
     async def search(self, lat: float, lon: float) -> str:
         # Reverse geocode to get location details
@@ -70,14 +70,13 @@ class DuckDuckGoSearchPlugin:
         region_prefix = f"{region}, " if region else ""
         location_name = location.address
         queries = [
-            f"current climate in {region_prefix}{country}",
             f"agricultural regulations in {region_prefix}{country}",
             f"recommended crops and agricultural market demand in {region_prefix}{country}"
         ]
         results = []
         with DDGS() as ddgs:
             for query in queries:
-                search_results = ddgs.text(query, max_results = 3)
+                search_results = ddgs.text(query, max_results = 2)
                 if search_results:
                     formatted = "\n\n".join([
                         f"**{r['title']}**\n{r['body']}\n{r['href']}"
@@ -158,21 +157,19 @@ To search for information, call:
 DuckDuckGoSearch.search({lat}, {lon})
 
 Given the coordinates ({lat}, {lon}), your job is to:
-- Use DuckSearch to search for current climate conditions.
-- Use DuckSearch to search for agricultural regulations.
-- Use DuckSearch to search for recommended crops and local agricultural market demand.
+- Use DuckDuckGoSearch to search for agricultural regulations.
+- Use DuckDuckGoSearch to search for recommended crops and local agricultural market demand.
 
 If DuckSearch reports 'unable to determine location' or no results for a query, explain this clearly in your response.
 
 Always organize your findings into 4 sections:
 1. Location and Climate Overview
-2. Recent Climate or Environmental News
-3. Agricultural Regulations
-4. Best Crops to Grow and Local Demand Insights
+2. Agricultural Regulations
+3. Best Crops to Grow and Local Demand Insights
 
-Start each section with a heading. Always attribute findings as coming from DuckSearch results or state if they’re general knowledge due to missing data.
+Start each section with a heading. Always attribute findings as coming from DuckDuckGo results or state if they’re general knowledge due to missing data.
 
-End your response with a summary recommendation on what the user should focus on agriculturally based on the findings.
+End your response with a summary recommendation on what the user should do based on the findings.
 """
             )
             agent_data_analyst = ChatCompletionAgent(
