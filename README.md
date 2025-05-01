@@ -6,20 +6,15 @@ Farmers across the globe have to navigate a dynamically changing climate, agricu
 ## Architecture 
 <img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
 
-On Streamlit, a user selects a location on OpenStreetMap. This gets sent to the NASA  
-
-
-back to Streamlit, 
+On Streamlit, a user selects a location on OpenStreetMap. The latitude and longitude of that location are sent to two native plugins. The first one retrieves relevant search results from Duck Duck Go such as local agricultural regulations and market demands. The second one retrieves the earliest to latest soil moisture data from 1981 to present day from the NASA POWER API. This amount of historical data makes it possible to forecast soil moisture levels 365 days into the future using the Prophet library. 
 
 
 
-This information is used to first pull 40 years of soil moisture data from the NASA POWER API. This is fed to the Prophet model which will automatically develop forecasts of the soil moisture levels of that location. These native plug-ins gets added to the history 
+
+add these plugins to the kernel. 
+The data retrieved from these native plugins gets added to the chat history.  
 
 
-Semantic kernel because it has multiple native plug-ins
-Classic search pre-fetched data retrieval 
-
-In the context of getting data 
 
 
 After the response from the location identifier, the data analyst agent receives the responses from the local identifier agent as well as from 
@@ -28,26 +23,20 @@ After the response from the location identifier, the data analyst agent receives
 
 The latitude and longitude is sent to the Semantic Kernel where it is received by two native plugins. First/ 
 
-add these plugins to the kernel. 
 
 
 
-An automated forecasting model using the Prophet library was applied to more than 40 years of MERRA-2 soil moisture data to identify long-term trends, predict 365 days into the future, and explore seasonal patterns.
 
-This tool allows farmers across the globe to zoom in on a Folium map to click on their location for analysis. Depending on the location, language may be adjusted to make it easier for the farmer to find their location.
-This location data is sent to the NASA POWER API to retrieve the earliest to latest soil moisture data. This amount of historical data makes it possible for a forecasting model using the Prophet library to analyze long-term trends and seasonal cycles and predict soil moisture levels 365 days into the future. Prophet accounts for non-linear trends using a piecewise linear model and accounts for seasonal cycles using a Fourier series that decomposes the cycle into a series of sine and cosine terms. Nevertheless, it is a lightweight automated model in a lightweight Streamlit application. Thus, the analyses are provided to the farmers on-demand.
-The first analysis is a line graph of the data from 1981 to the current date. 
-
-The second analysis follows a similar format but consists of predicted values 365 days from the current date with confidence intervals. The third analysis decomposes the data to visualize the general trend without the fluctuations. The fourth analysis decomposes the data to visualize the impact of the seasonal cycle that occurs within each year on soil moisture levels. 
+This location data is also sent to the NASA POWER API to 
 
 
-So here is the architecture diagram, which consists of many light-weight components, such as streamlit for the user interface, prophet model for the automated statistical analysis, and semantic kernel for the agentic ai framework, and this makes it possible to process a lot of data quickly which will be essential for this application.   
 
-First, a user, will select a location on OpenStreetMap, instead of writing an entire prompt that’s clear and detailed. This makes things easier for the user, but also for the agents as this provides a standard process for the input which will become important in the next step. 
-
-By selecting a location, the latitude and longitude of that location, will be sent to two native plugins. The first plugin will convert that data to identify the location’s country and region. This is used to search local agricultural regulations and market demands on duckduckgo, which is a browser that doesn’t track search information. The second plugin will take that data to pull 40 years of soil moisture data from the NASA POWER API. This is then fed to the Prophet model which will automatically develop a 1-year forecast of the soil moisture levels of that location. To be able to successfully conduct a classic search to retrieve both of these data is one of the reasons why the semantic kernel was selected, and why im requiring a standard user input. 
+By selecting a location, the latitude and longitude of that location, will be sent to two native plugins. The first plugin will convert that data to identify the location’s country and region. This is used to search local agricultural regulations and market demands on duckduckgo, which is a browser that doesn’t track search information. The second plugin will take that data to pull 40 years of soil moisture data from the NASA POWER API. This is then fed to the Prophet model which will automatically develop a forecast of the soil moisture levels of that location 365 days in the future. To be able to successfully conduct a classic search to retrieve both of these data is one of the reasons why the semantic kernel was selected, and why im requiring a standard user input. 
 
 Within the agent group chat, powered by OpenAI LLM, the selector strategy selects the location identifier agent in response to the user input. and this agent describe the location’s climate, mention what was found in the duckduckgo search results, and summarize recommendations, this response leads to the data analyst agent responding with analysis and recommendations, based on the soil moisture forecast data it retrieved from the NASA data plugin. Eventually, the termination strategy ends the agents responses, but the user can include a follow-up prompt, and provide feedback to improve responses, so this adds the human-in-the loop to the process, and this will continue until the user ends the conversation.    
+
+responses from the agents are presented on Streamlit, and follow-up  
+
 
 
 ## Data Source
