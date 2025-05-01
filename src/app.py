@@ -32,28 +32,27 @@ def create_kernel() -> Kernel:
     kernel = Kernel()
     kernel.add_service(
         OpenAIChatCompletion(
-            api_key=st.secrets["openai"]["api_key"],
-            ai_model_id="gpt-4o-mini"
+            api_key = st.secrets["openai"]["api_key"],
+            ai_model_id = "gpt-4o-mini"
         )
     )
     return kernel
 
 # --- Duck Duck Go Search Plugin --- #
 class DuckDuckGoSearchPlugin:
-    """DuckDuckGo search plugin with automatic query generation based on lat/lon."""
+    """DuckDuckGo search plugin with automatic query generation based on lat/lon."""    
     def __init__(self):
         self.geolocator = Nominatim(user_agent="agricultural_agentic_ai_app")
 
     @kernel_function(
-        name="DuckDuckGoSearch",
-        description="Search the web using DuckDuckGo for local climate, agriculture regulations, and market demand."
+        name = "DuckDuckGoSearch",
+        description = "Search the web using DuckDuckGo for local climate, agriculture regulations, and market demand."
     )
     async def search(self, lat: float, lon: float) -> str:
         # Reverse geocode to get location details
         location = self.geolocator.reverse((lat, lon), language="en")
         if location is None:
             return "Unable to determine location from coordinates."
-
         address = location.raw.get("address", {})
         country = address.get("country", "")
         region = (
@@ -64,24 +63,20 @@ class DuckDuckGoSearchPlugin:
             or address.get("district")
             or ""
         )
-
         # If neither country nor region is available, do not proceed
         if not country and not region:
             return "Unable to determine country or region from coordinates. Cannot perform search."
-
         region_prefix = f"{region}, " if region else ""
         location_name = location.address
-
         queries = [
             f"current climate in {region_prefix}{country}",
             f"agricultural regulations in {region_prefix}{country}",
             f"recommended crops and agricultural market demand in {region_prefix}{country}"
         ]
-
         results = []
         with DDGS() as ddgs:
             for query in queries:
-                search_results = ddgs.text(query, max_results=3)
+                search_results = ddgs.text(query, max_results = 3)
                 if search_results:
                     formatted = "\n\n".join([
                         f"**{r['title']}**\n{r['body']}\n{r['href']}"
@@ -90,7 +85,6 @@ class DuckDuckGoSearchPlugin:
                     results.append(f"### Search Results for '{query}':\n{formatted}")
                 else:
                     results.append(f"No results found for '{query}'.")
-
         return f"**Resolved location:** {location_name}\n\n" + "\n\n".join(results)
 
 # --- NASA Data Plugin --- #
@@ -102,8 +96,8 @@ class NASADataPlugin:
         self._parameter = parameter
         
     @kernel_function(
-        name="NASADataRetriever",
-        description="Fetch daily soil moisture data from NASA POWER API given latitude, longitude, and parameter name."
+        name = "NASADataRetriever",
+        description = "Fetch daily soil moisture data from NASA POWER API given latitude, longitude, and parameter name."
     )
     async def fetch_soil_moisture(self, lat: float, lon: float, parameter: str) -> dict:
         """Fetch soil moisture data from NASA POWER API."""
@@ -117,12 +111,12 @@ class NASADataPlugin:
         if response.ok:
             data = response.json()['properties'].get('parameter', {})
             df = pd.DataFrame.from_dict(data).replace(-999, np.nan)
-            df.index = pd.to_datetime(df.index, format='%Y%m%d')
+            df.index = pd.to_datetime(df.index, format = '%Y%m%d')
             df_prophet = df[[parameter]].reset_index()
             df_prophet.columns = ['ds', 'y']
-            model = Prophet(weekly_seasonality=False, yearly_seasonality=True)
+            model = Prophet(weekly_seasonality = False, yearly_seasonality = True)
             model.fit(df_prophet)
-            future = model.make_future_dataframe(periods=365)
+            future = model.make_future_dataframe(periods = 365)
             forecast = model.predict(future)
             forecast_year = forecast.tail(365)
             forecast_year_data = forecast_year[['ds', 'yhat']]
@@ -140,8 +134,8 @@ async def stream_response(chat):
 st.set_page_config(layout="wide")
 st.title("🌾 Agricultural Agentic AI")
 st.write("### Select a location on the map")
-map = folium.Map(location=[20, 0], zoom_start=2)
-map_data = st_folium(map, width=1200, height=600, returned_objects=["last_clicked"])
+map = folium.Map(location = [20, 0], zoom_start = 2)
+map_data = st_folium(map, width = 1200, height = 600, returned_objects = ["last_clicked"])
 if map_data and map_data["last_clicked"]:
     lat = map_data["last_clicked"]["lat"]
     lon = map_data["last_clicked"]["lng"]
@@ -154,9 +148,9 @@ if map_data and map_data["last_clicked"]:
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
             agent_location_identifier = ChatCompletionAgent(
-                kernel=kernel,
-                name=LOCATION_IDENTIFIER,
-                instructions=f"""
+                kernel = kernel,
+                name = LOCATION_IDENTIFIER,
+                instructions = f"""
 You are an agricultural location identifier with access to the DuckDuckGoSearch plugin.
 
 To search for information, call:
@@ -181,8 +175,8 @@ End your response with a summary recommendation on what the user should focus on
 """
             )
             agent_data_analyst = ChatCompletionAgent(
-                kernel=kernel,
-                name=DATA_ANALYST,
+                kernel = kernel,
+                name = DATA_ANALYST,
                 instructions="""
 You are an agricultural soil moisture data analyst.
 
@@ -216,8 +210,8 @@ Always base your advice on the patterns observed in the forecasted data, and use
 """
             )
             selection_function = KernelFunctionFromPrompt(
-                function_name="select",
-                prompt=f"""
+                function_name = "select",
+                prompt = f"""
 Examine the provided RESPONSE and choose the next participant.
 State only the name of the chosen participant without explanation.
 Never choose the participant named in the RESPONSE.
@@ -236,8 +230,8 @@ RESPONSE:
 """
             )
             termination_function = KernelFunctionFromPrompt(
-                function_name="terminate",
-                prompt=f"""
+                function_name = "terminate",
+                prompt = f"""
 Examine the RESPONSE and determine whether the conversation is complete.
 If complete, respond only with the keyword {TERMINATION_KEYWORD}.
 Otherwise, continue.
@@ -248,33 +242,33 @@ RESPONSE:
             )
             agents = [agent_location_identifier, agent_data_analyst]
             chat = AgentGroupChat(
-                agents=agents,
-                selection_strategy=KernelFunctionSelectionStrategy(
-                    initial_agent=agent_location_identifier,
-                    function=selection_function,
-                    kernel=kernel,
-                    result_parser=lambda r: str(r.value[0]).strip(),
-                    history_variable_name="lastmessage",
-                    history_reducer=ChatHistoryTruncationReducer(target_count=2),
+                agents = agents,
+                selection_strategy = KernelFunctionSelectionStrategy(
+                    initial_agent = agent_location_identifier,
+                    function = selection_function,
+                    kernel = kernel,
+                    result_parser = lambda r: str(r.value[0]).strip(),
+                    history_variable_name = "lastmessage",
+                    history_reducer=ChatHistoryTruncationReducer(target_count = 2)
                 ),
                 termination_strategy=KernelFunctionTerminationStrategy(
-                    agents=[agent_data_analyst],
-                    function=termination_function,
-                    kernel=kernel,
-                    result_parser=lambda r: TERMINATION_KEYWORD in str(r.value[0]).lower(),
-                    history_variable_name="lastmessage",
-                    maximum_iterations=8,
-                    history_reducer=ChatHistoryTruncationReducer(target_count=2),
+                    agents = [agent_data_analyst],
+                    function = termination_function,
+                    kernel = kernel,
+                    result_parser = lambda r: TERMINATION_KEYWORD in str(r.value[0]).lower(),
+                    history_variable_name = "lastmessage",
+                    maximum_iterations = 8,
+                    history_reducer=ChatHistoryTruncationReducer(target_count = 2)
                 )
             )
             st.session_state.chat = chat
             st.session_state.history = []
             first_prompt = "Given coordinates ({lat}, {lon}), provide agricultural recommendations."
-            asyncio.run(st.session_state.chat.add_chat_message(message=first_prompt))
+            asyncio.run(st.session_state.chat.add_chat_message(message = first_prompt))
             for name, msg in asyncio.run(stream_response(st.session_state.chat)):
                 st.session_state.history.append((name, msg))
 
-        # --- Display chat for follow-up prompts --- #
+        # --- Display agents' responses --- #
         st.markdown("### 🤖 Chat with the Agricultural AI Agent")
         for sender, msg in st.session_state.history:
             with st.chat_message(sender):
@@ -283,9 +277,9 @@ RESPONSE:
         # --- Handle user's follow-up prompts and display agents' responses --- #
         user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
-            with st.chat_message("user"):
+            with st.chat_message("user", avatar = "🚜"):
                 st.markdown(user_input)
-            asyncio.run(st.session_state.chat.add_chat_message(message=user_input))
+            asyncio.run(st.session_state.chat.add_chat_message(message = user_input))
             st.session_state.chat.is_complete = False
             with st.spinner("Thinking..."):
                 responses = asyncio.run(stream_response(st.session_state.chat))
