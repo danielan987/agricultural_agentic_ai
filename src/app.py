@@ -274,7 +274,7 @@ RESPONSE:
                 st.markdown(msg.strip())
         
         # --- Handle user's follow-up prompts and display agents' responses --- #
-        user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
+        user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, or soil moisture forecast...")
         if user_input:
             with st.chat_message("user", avatar = "🚜"):
                 st.markdown(user_input)
