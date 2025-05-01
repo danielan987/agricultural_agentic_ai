@@ -6,37 +6,7 @@ Farmers across the globe have to navigate a dynamically changing climate, agricu
 ## Architecture 
 <img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
 
-On Streamlit, a user selects a location on OpenStreetMap. The latitude and longitude of that location are sent to two native plugins. The first one retrieves relevant search results from Duck Duck Go such as local agricultural regulations and market demands. The second one retrieves the earliest to latest soil moisture data from 1981 to present day from the NASA POWER API. This amount of historical data makes it possible to forecast soil moisture levels 365 days into the future using the Prophet library. 
-
-
-
-
-add these plugins to the kernel. 
-The data retrieved from these native plugins gets added to the chat history.  
-
-
-
-
-After the response from the location identifier, the data analyst agent receives the responses from the local identifier agent as well as from 
-
-
-
-The latitude and longitude is sent to the Semantic Kernel where it is received by two native plugins. First/ 
-
-
-
-
-
-This location data is also sent to the NASA POWER API to 
-
-
-
-By selecting a location, the latitude and longitude of that location, will be sent to two native plugins. The first plugin will convert that data to identify the location’s country and region. This is used to search local agricultural regulations and market demands on duckduckgo, which is a browser that doesn’t track search information. The second plugin will take that data to pull 40 years of soil moisture data from the NASA POWER API. This is then fed to the Prophet model which will automatically develop a forecast of the soil moisture levels of that location 365 days in the future. To be able to successfully conduct a classic search to retrieve both of these data is one of the reasons why the semantic kernel was selected, and why im requiring a standard user input. 
-
-Within the agent group chat, powered by OpenAI LLM, the selector strategy selects the location identifier agent in response to the user input. and this agent describe the location’s climate, mention what was found in the duckduckgo search results, and summarize recommendations, this response leads to the data analyst agent responding with analysis and recommendations, based on the soil moisture forecast data it retrieved from the NASA data plugin. Eventually, the termination strategy ends the agents responses, but the user can include a follow-up prompt, and provide feedback to improve responses, so this adds the human-in-the loop to the process, and this will continue until the user ends the conversation.    
-
-responses from the agents are presented on Streamlit, and follow-up  
-
+On Streamlit, a user selects a location on OpenStreetMap. The latitude and longitude of that location are sent to two native plugins. The first one retrieves relevant search results from DuckDuckGo including local agricultural regulations and market demands. The second one retrieves the earliest to latest soil moisture data from 1981 to the present day from the NASA POWER API. This amount of historical data makes it possible to forecast soil moisture levels 365 days into the future using the Prophet library. The data retrieved from these plugins gets added to the chat history to be used by the agents. Within the agent group chat, powered by the "gpt-4o-mini" model from OpenAI, the selector strategy selects the location identifier agent in response to the user input. This agent describes the location’s climate, mentions what was found in the DuckDuckGo search results, and makes recommendations. This response leads to the data analyst agent responding with analysis and recommendations based on the soil moisture forecast data it retrieved from the NASA data plugin. Eventually, the termination strategy ends the agents' responses, and they get produced on Streamlit, but the user can include a follow-up prompt to continue the conversation.    
 
 
 ## Data Source
