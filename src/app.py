@@ -38,9 +38,9 @@ def create_kernel() -> Kernel:
     )
     return kernel
 
+# --- Duck Duck Go Search Plugin --- #
 class DuckDuckGoSearchPlugin:
     """DuckDuckGo search plugin with automatic query generation based on lat/lon."""
-
     def __init__(self):
         self.geolocator = Nominatim(user_agent="agricultural_agentic_ai_app")
 
