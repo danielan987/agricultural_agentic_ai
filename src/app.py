@@ -275,11 +275,6 @@ RESPONSE:
             avatar_icons = AVATARS.get(sender)
             with st.chat_message(sender, avatar = avatar_icons):
                 st.markdown(msg.strip())
-
-for sender, msg in st.session_state.history:
-    avatar_icons = AVATARS.get(sender)
-    with st.chat_message(sender, avatar = avatar_icons):
-        st.markdown(msg.strip())
         
         # --- Handle user's follow-up prompts and display agents' responses --- #
         user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
