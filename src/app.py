@@ -38,21 +38,60 @@ def create_kernel() -> Kernel:
     )
     return kernel
 
-# --- DuckDuckGo Search Plugin --- #
-class DuckDuckGoSearchPlugin:
-    """DuckDuckGo search wrapper plugin."""
-    
+class DuckSearchPlugin:
+    """DuckDuckGo search plugin with automatic query generation based on lat/lon."""
+
+    def __init__(self):
+        self.geolocator = Nominatim(user_agent="soil_agent_app")
+
     @kernel_function(
-        name="DuckDuckGoSearch",
-        description="Search the web using DuckDuckGo to receive the latest information."
+        name="DuckSearch",
+        description="Search the web using DuckDuckGo for local climate, agriculture regulations, and market demand."
     )
-    async def search(self, query: str) -> str:
-        from duckduckgo_search import DDGS
+    async def search(self, lat: float, lon: float) -> str:
+        # Reverse geocode to get location details
+        location = self.geolocator.reverse((lat, lon), language="en")
+        if location is None:
+            return "Unable to determine location from coordinates."
+
+        address = location.raw.get("address", {})
+        country = address.get("country", "")
+        region = (
+            address.get("state")
+            or address.get("province")
+            or address.get("region")
+            or address.get("county")
+            or address.get("district")
+            or ""
+        )
+
+        # If neither country nor region is available, do not proceed
+        if not country and not region:
+            return "Unable to determine country or region from coordinates. Cannot perform search."
+
+        region_prefix = f"{region}, " if region else ""
+        location_name = location.address
+
+        queries = [
+            f"current climate in {region_prefix}{country}",
+            f"agricultural regulations in {region_prefix}{country}",
+            f"recommended crops and agricultural market demand in {region_prefix}{country}"
+        ]
+
+        results = []
         with DDGS() as ddgs:
-            results = ddgs.text(query, max_results=5)
-        if not results:
-            return "No relevant information found."
-        return "\n\n".join([f"{r['title']}:\n{r['body']}" for r in results])
+            for query in queries:
+                search_results = ddgs.text(query, max_results=3)
+                if search_results:
+                    formatted = "\n\n".join([
+                        f"**{r['title']}**\n{r['body']}\n{r['href']}"
+                        for r in search_results
+                    ])
+                    results.append(f"### Search Results for '{query}':\n{formatted}")
+                else:
+                    results.append(f"No results found for '{query}'.")
+
+        return f"**Resolved location:** {location_name}\n\n" + "\n\n".join(results)
 
 # --- NASA Data Plugin --- #
 class NASADataPlugin:
