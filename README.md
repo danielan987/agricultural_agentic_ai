@@ -48,9 +48,12 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
 <img width="740" alt="Screenshot 2025-04-30 at 11 54 03 AM" src="https://github.com/user-attachments/assets/d68e738d-c765-4495-b03c-2316c19a0164" />
 
 3. Review responses from agents. 
+<img width="1573" alt="Screenshot 2025-05-01 at 12 50 37 AM" src="https://github.com/user-attachments/assets/7b523263-76b2-4a41-b341-42e6ac81ba69" />
+<img width="1565" alt="Screenshot 2025-05-01 at 12 51 32 AM" src="https://github.com/user-attachments/assets/a7b97720-3044-403a-90e8-bcc816dd506d" />
 
 4. Ask follow-up questions.
-  
+<img width="1599" alt="Screenshot 2025-05-01 at 12 56 52 AM" src="https://github.com/user-attachments/assets/15674285-8d25-447c-a57b-a8cab88405bc" />
+
 5. Repeat Step 3 and Step 4 until satisfied. 
 
 ## Contact
