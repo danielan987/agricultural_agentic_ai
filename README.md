@@ -42,7 +42,8 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
 1. Open Agricultural Agentic AI App: [https://soilagent.streamlit.app/](https://agricultural-agentic-ai.streamlit.app/)
 
 2. Zoom in and select a location on a map. 
-<img width="1213" alt="Screenshot 2025-04-29 at 9 19 48 PM" src="https://github.com/user-attachments/assets/20c3becc-a236-4799-b88c-aeacbc0c3847" />
+<img width="1213" alt="Screenshot 2025-04-29 at 9 19 48 PM" src="https://github.com/user-attachments/assets/5b106ef8-2626-4e37-b7d8-f4b8908ba868" />
+
 <img width="740" alt="Screenshot 2025-04-30 at 11 54 03 AM" src="https://github.com/user-attachments/assets/d68e738d-c765-4495-b03c-2316c19a0164" />
 
 3. Review responses from agents. 
