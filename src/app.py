@@ -25,6 +25,7 @@ from semantic_kernel.kernel import Kernel
 LOCATION_IDENTIFIER = "LocationIdentifier"
 DATA_ANALYST = "DataAnalyst"
 TERMINATION_KEYWORD = "yes"
+AVATARS = {"user": "🚜", "LocationIdentifier": "🗺️", "DataAnalyst": "📊"}
 
 # --- Semantic Kernel Setup --- #
 def create_kernel() -> Kernel:
@@ -267,13 +268,19 @@ RESPONSE:
             asyncio.run(st.session_state.chat.add_chat_message(message = first_prompt))
             for name, msg in asyncio.run(stream_response(st.session_state.chat)):
                 st.session_state.history.append((name, msg))
-
+        
         # --- Display agents' responses --- #
         st.markdown("### 🤖 Chat with the Agricultural AI Agent")
         for sender, msg in st.session_state.history:
-            with st.chat_message(sender):
+            avatar_icons = AVATARS.get(sender)
+            with st.chat_message(sender, avatar = avatar_icons):
                 st.markdown(msg.strip())
 
+for sender, msg in st.session_state.history:
+    avatar_icons = AVATARS.get(sender)
+    with st.chat_message(sender, avatar = avatar_icons):
+        st.markdown(msg.strip())
+        
         # --- Handle user's follow-up prompts and display agents' responses --- #
         user_input = st.chat_input("Ask a follow-up question about farming, agricultural regulations, and soil moisture forecast...")
         if user_input:
@@ -285,5 +292,6 @@ RESPONSE:
                 responses = asyncio.run(stream_response(st.session_state.chat))
                 for name, msg in responses:
                     st.session_state.history.append((name, msg))
-                    with st.chat_message(name):
+                    avatar_icons = AVATARS.get(name)
+                    with st.chat_message(name, avatar = avatar_icons):
                         st.markdown(msg.strip())
