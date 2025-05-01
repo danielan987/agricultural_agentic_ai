@@ -1,7 +1,7 @@
 # Agricultural Agentic AI
 
-## Overview
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies, which is often done by intuition. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to assist them in making these decisions.    
+## Background
+Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to assist them in making these decisions.    
 
 ## Architecture 
 <img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
