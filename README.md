@@ -8,8 +8,9 @@ Farmers across the globe have to navigate a dynamically changing climate, agricu
 
 A user starts the conversation by selecting a location on a map instead of writing a prompt. 
 
-The latitude and longitude is sent to the Semantic Kernel where it is received by two native plug-ins. First/ 
+The latitude and longitude is sent to the Semantic Kernel where it is received by two native plugins. First/ 
 
+add these plugins to the kernel. 
 
 Within a 
 gpt-4o-mini
