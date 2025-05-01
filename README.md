@@ -1,10 +1,12 @@
 # Agricultural Agentic AI
 
 ## Overview
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies, which is often done by intuition. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to help them make these decisions.    
+Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies, which is often done by intuition. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to assist them in making these decisions.    
 
 ## Architecture 
-![Flowchart - Frame 1 (2)](https://github.com/user-attachments/assets/6775e87c-b775-482c-9930-5fb76e650efb)
+<img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
+
+
 
 A user starts the conversation by selecting a location on a map instead of writing a prompt. 
 
@@ -43,7 +45,6 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
 
 2. Zoom in and select a location on a map. 
 <img width="1213" alt="Screenshot 2025-04-29 at 9 19 48 PM" src="https://github.com/user-attachments/assets/5b106ef8-2626-4e37-b7d8-f4b8908ba868" />
-
 <img width="740" alt="Screenshot 2025-04-30 at 11 54 03 AM" src="https://github.com/user-attachments/assets/d68e738d-c765-4495-b03c-2316c19a0164" />
 
 3. Review responses from agents. 
@@ -51,26 +52,6 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
 4. Ask follow-up questions.
   
 5. Repeat Step 3 and Step 4 until satisfied. 
-
-
-
-
-
-This tool allows farmers across the globe to zoom in on a Folium map to click on their location for analysis. Depending on the location, language may be adjusted to make it easier for the farmer to find their location.
-This location data is sent to the NASA POWER API to retrieve the earliest to latest soil moisture data. This amount of historical data makes it possible for a forecasting model using the Prophet library to analyze long-term trends and seasonal cycles and predict soil moisture levels 365 days into the future. Prophet accounts for non-linear trends using a piecewise linear model and accounts for seasonal cycles using a Fourier series that decomposes the cycle into a series of sine and cosine terms. Nevertheless, it is a lightweight automated model in a lightweight Streamlit application. Thus, the analyses are provided to the farmers on-demand.
-The first analysis is a line graph of the data from 1981 to the current date. The value ranges from 0 to 1 with 0 indicating the soil is completely water-free and 1 indicating the soil is completely saturated. The second analysis follows a similar format but consists of predicted values 365 days from the current date with confidence intervals. The third analysis decomposes the data to visualize the general trend without the fluctuations. The fourth analysis decomposes the data to visualize the impact of the seasonal cycle that occurs within each year on soil moisture levels. Each visualization is written in English with emojis, numbers and international units of measurement to make it easier to comprehend for everyone across the globe.
-
-
-This will ultimately impact global food supplies, water sustainability. 
-
-
-
-
-Overall, 
-These analyses help farmers understand their farm better and plan ahead. By adjusting seasonal irrigation strategies, switching to crops suited for the projected moisture levels, or deciding to purchase 
-crop insurance.
-
-
 
 ## Contact
 Daniel An: daniel.an.893@outlook.com
