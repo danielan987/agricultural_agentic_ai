@@ -233,7 +233,7 @@ RESPONSE:
                 st.session_state.history.append((name, msg))
 
         # --- Display chat for follow-up prompts --- #
-        st.markdown("### 🤖 Chat with the Soil Agent")
+        st.markdown("### 🤖 Chat with the Agricultural AI Agent")
         for sender, msg in st.session_state.history:
             with st.chat_message(sender):
                 st.markdown(msg.strip())
