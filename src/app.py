@@ -5,7 +5,6 @@ import folium
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import duckduckgo_search 
 from duckduckgo_search import DDGS
 from geopy.geocoders import Nominatim
 import requests
