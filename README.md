@@ -6,9 +6,25 @@ Farmers across the globe have to navigate a dynamically changing climate, agricu
 ## Architecture 
 <img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
 
+On Streamlit, a user selects a location on OpenStreetMap. This gets sent 
 
 
-A user starts the conversation by selecting a location on a map instead of writing a prompt. 
+back to Streamlit, 
+
+
+
+This information is used to first pull 40 years of soil moisture data from the NASA POWER API. This is fed to the Prophet model which will automatically develop forecasts of the soil moisture levels of that location. These native plug-ins gets added to the history 
+
+
+Semantic kernel because it has multiple native plug-ins
+Classic search pre-fetched data retrieval 
+
+In the context of getting data 
+
+
+After the response from the location identifier, the data analyst agent receives the responses from the local identifier agent as well as from 
+
+
 
 The latitude and longitude is sent to the Semantic Kernel where it is received by two native plugins. First/ 
 
