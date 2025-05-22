@@ -30,7 +30,7 @@ The National Aeronautics and Space Administration (NASA) has developed Modern-Er
   <img width="856" alt="Screenshot 2025-04-30 at 11 27 52 AM" src="https://github.com/user-attachments/assets/c88db9b6-4ad2-4aad-bd11-4031284468e3" />
 
 ## User Guide
-1. Open Agricultural Agentic AI App: [https://soilagent.streamlit.app/](https://agricultural-agentic-ai.streamlit.app/)
+1. Open Agricultural Agentic AI App: https://agricultural-agentic-ai.streamlit.app/
 
 2. Zoom in and select a location on a map. 
 <img width="1213" alt="Screenshot 2025-04-29 at 9 19 48 PM" src="https://github.com/user-attachments/assets/5b106ef8-2626-4e37-b7d8-f4b8908ba868" />
