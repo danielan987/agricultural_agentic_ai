@@ -119,6 +119,18 @@ class NASADataPlugin:
             future = model.make_future_dataframe(periods = 365)
             forecast = model.predict(future)
             forecast_year = forecast.tail(365)
+            
+            # forecast_year_data = forecast_year[['ds', 'yhat']]
+            # return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
+            # forecast = model.predict(future)
+            # forecast_year = forecast.tail(365)
+            
+            # Filter by date range if available in session state
+            if hasattr(st.session_state, 'start_date') and hasattr(st.session_state, 'end_date'):
+                mask = (forecast_year['ds'] >= pd.Timestamp(st.session_state.start_date)) & \
+                       (forecast_year['ds'] <= pd.Timestamp(st.session_state.end_date))
+                forecast_year = forecast_year[mask]
+            
             forecast_year_data = forecast_year[['ds', 'yhat']]
             return dict(zip(forecast_year_data['ds'], forecast_year_data['yhat']))
 
@@ -134,6 +146,35 @@ async def stream_response(chat):
 st.set_page_config(layout="wide")
 st.title("🌾 Agricultural Agentic AI")
 st.write("### Select a location on the map")
+
+col1, col2 = st.columns(2)
+today = datetime.now().date()
+default_end = today + timedelta(days=365)
+
+with col1:
+    start_date = st.date_input(
+        "Start Date",
+        value=today,
+        min_value=today,
+        max_value=default_end,
+        key="start_date"
+    )
+
+with col2:
+    end_date = st.date_input(
+        "End Date",
+        value=default_end,
+        min_value=today,
+        max_value=default_end,
+        key="end_date"
+    )
+
+if start_date > end_date:
+    st.error("Error: Start date must be before end date.")
+else:
+    st.success(f"Forecast range: {start_date.strftime('%B %d, %Y')} to {end_date.strftime('%B %d, %Y')} ({(end_date - start_date).days} days)")
+
+
 map = folium.Map(location = [20, 0], zoom_start = 2)
 map_data = st_folium(map, width = 1200, height = 600, returned_objects = ["last_clicked"])
 if map_data and map_data["last_clicked"]:
@@ -141,12 +182,15 @@ if map_data and map_data["last_clicked"]:
     lon = map_data["last_clicked"]["lng"]
     parameter = "GWETROOT"
     with st.spinner("Thinking..."):
-        if "chat" not in st.session_state:
+        if "chat" not in st.session_state or st.session_state.get('last_location') != (lat, lon):
             kernel = create_kernel()
             search_results = DuckDuckGoSearchPlugin()
             kernel.add_plugin(search_results)
             data = NASADataPlugin(lat, lon, parameter)
             kernel.add_plugin(data)
+            
+            date_range_info = f"from {start_date.strftime('%B %d, %Y')} to {end_date.strftime('%B %d, %Y')}"
+            
             agent_location_identifier = ChatCompletionAgent(
                 kernel = kernel,
                 name = LOCATION_IDENTIFIER,
@@ -162,12 +206,12 @@ Given the coordinates ({lat}, {lon}), your job is to:
 
 If DuckSearch reports 'unable to determine location' or no results for a query, explain this clearly in your response.
 
-Always organize your findings into 4 sections:
+Always organize your findings into 3 sections:
 1. Location and Climate Overview
 2. Agricultural Regulations
 3. Best Crops to Grow and Local Demand Insights
 
-Start each section with a heading. Always attribute findings as coming from DuckDuckGo results or state if they’re general knowledge due to missing data.
+Start each section with a heading. Always attribute findings as coming from DuckDuckGo results or state if they're general knowledge due to missing data.
 
 End your response with a summary recommendation on what the user should do based on the findings.
 """
@@ -175,15 +219,15 @@ End your response with a summary recommendation on what the user should do based
             agent_data_analyst = ChatCompletionAgent(
                 kernel = kernel,
                 name = DATA_ANALYST,
-                instructions="""
+                instructions=f"""
 You are an agricultural soil moisture data analyst.
 
-You have access to forecasted soil moisture data for the next 365 days through the NASADataPlugin.
+You have access to forecasted soil moisture data for the date range {date_range_info} through the NASADataPlugin.
 The forecast is based on the 'GWETROOT' parameter (Moisture from the surface to 100 cm below the surface), processed using a time series model.
 
 Your tasks are:
-- Retrieve the forecasted daily soil moisture data (date and predicted value).
-- Analyze the forecast trends over the next 12 months.
+- Retrieve the forecasted daily soil moisture data (date and predicted value) for the specified date range.
+- Analyze the forecast trends over this period.
 
 When analyzing the forecast:
 - Interpret soil moisture patterns without explicitly mentioning specific numerical values or thresholds.
@@ -200,11 +244,11 @@ Based on the analysis:
 When giving recommendations:
 - Offer practical irrigation strategies if dryness is expected, indicating when farmers may need to prepare.
 - Offer drainage or water management strategies if excessive moisture is expected, indicating when preventive measures should be considered.
-- Provide gardening and farming advice tailored to the projected soil moisture conditions.
+- Provide gardening and farming advice tailored to the projected soil moisture conditions for the selected date range.
 
 If the forecast data is unavailable or insufficient to determine a trend, politely inform the user without making assumptions.
 
-Always base your advice on the patterns observed in the forecasted data, and use clear, actionable language suitable for farmers.
+Always base your advice on the patterns observed in the forecasted data for {date_range_info}, and use clear, actionable language suitable for farmers.
 """
             )
             selection_function = KernelFunctionFromPrompt(
@@ -261,6 +305,7 @@ RESPONSE:
             )
             st.session_state.chat = chat
             st.session_state.history = []
+            st.session_state.last_location = (lat, lon)
             first_prompt = "Given coordinates ({lat}, {lon}), provide agricultural recommendations."
             asyncio.run(st.session_state.chat.add_chat_message(message = first_prompt))
             for name, msg in asyncio.run(stream_response(st.session_state.chat)):
