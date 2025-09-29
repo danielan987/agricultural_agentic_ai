@@ -1,7 +1,7 @@
-# Agricultural Agentic AI
+# Future Clouds
 
 ## Background
-Farmers across the globe have to navigate a dynamically changing climate, agricultural regulations, and crop markets that vary significantly depending on their location. This requires adjusting or even pivoting agricultural and irrigation strategies. This user-friendly, agentic AI app for farmers searches the Internet and leverages data to assist them in making these decisions.    
+It is challenging to predict the weather months or years in advance. However, that is what's required when preparing for a trip in advance. We don't want it to be too hot or cold, too windy, raining or snowing too much, or even too humid or dry. Often, we have to guess and hope for the best. This user-friendly, agentic AI app allows users to get a weather prediction on a specified location and a date with agentic AI to provide further context on the future weather situation. 
 
 ## Architecture 
 <img width="945" alt="Screenshot 2025-05-01 at 12 41 33 AM" src="https://github.com/user-attachments/assets/a2f9d779-44ee-4166-aa61-e21408f3c74c" />
