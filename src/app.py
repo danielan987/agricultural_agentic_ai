@@ -145,7 +145,6 @@ async def stream_response(chat):
 # --- Streamlit Interface --- #
 st.set_page_config(layout="wide")
 st.title("🌾 Agricultural Agentic AI")
-st.write("### Select a location on the map")
 
 col1, col2 = st.columns(2)
 today = datetime.now().date()
@@ -173,6 +172,9 @@ if start_date > end_date:
     st.error("Error: Start date must be before end date.")
 else:
     st.success(f"Forecast range: {start_date.strftime('%B %d, %Y')} to {end_date.strftime('%B %d, %Y')} ({(end_date - start_date).days} days)")
+
+st.write("### Select a location on the map")
+
 
 
 map = folium.Map(location = [20, 0], zoom_start = 2)
