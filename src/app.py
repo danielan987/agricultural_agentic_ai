@@ -3,7 +3,6 @@ import asyncio
 from datetime import datetime
 import folium
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 import numpy as np
 import pandas as pd
 from duckduckgo_search import DDGS
